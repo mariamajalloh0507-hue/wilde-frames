@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wilde Frames: Mockup: Chimpanzee details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            font-weight: bold;
+            background: white;
+            padding: 1rem 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .hero-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-content {
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .animal-image img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 0.67;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (min-width: 768px) {
+            .hero-content {
+                display: grid;
+            }
+        }
+
+        .animal-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .animal-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .aspect-ratio-badge {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .description {
+            color: #495057;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .frames-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .compatibility-info {
+            font-size: 1rem;
+            color: #28a745;
+            background: #d4edda;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .frame-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .wiki-link {
+            margin-top: 12px;
+        }
+
+        .wiki-link a {
+            text-decoration: none;
+            color: rgb(6, 6, 161);
+        }
+
+        .frame-option {
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 1.5rem;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .frame-option:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 16px rgba(0, 123, 255, 0.15);
+        }
+
+        .frame-preview {
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Large Portrait Frame: 52x72cm */
+        .large-portrait .frame {
+            background: radial-gradient(ellipse at center, #2c2c2c 0%, #1a1a1a 70%, #000000 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: calc(100% * 2 / 52);
+        }
+
+        .large-portrait .mat {
+            background: white;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.15);
+            padding: calc(100% * (70 - 49) / 2 / 70) calc(100% * (50 - 39) / 2 / 50);
+        }
+
+        .large-portrait img {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            display: block;
+            aspect-ratio: 39/49;
+        }
+
+        /* Medium Portrait Frame: 42x52cm */
+        .medium-portrait .frame {
+            background: radial-gradient(ellipse at center, #A0522D 0%, #8B4513 70%, #654321 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: calc(100% * 2 / 42);
+        }
+
+        .medium-portrait .mat {
+            background: white;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.15);
+            padding: calc(100% * (50 - 39) / 2 / 50) calc(100% * (40 - 29) / 2 / 40);
+        }
+
+        .medium-portrait img {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            display: block;
+            aspect-ratio: 29/39;
+        }
+
+        /* Small Portrait Frame: 32x42cm */
+        .small-portrait .frame {
+            background: linear-gradient(45deg, #C0C0C0 0%, #A8A8A8 25%, #C0C0C0 50%, #969696 75%, #C0C0C0 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: calc(100% * 2 / 32);
+        }
+
+        .small-portrait .mat {
+            background: white;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.15);
+            padding: calc(100% * (40 - 29) / 2 / 40) calc(100% * (30 - 20) / 2 / 30);
+        }
+
+        .small-portrait img {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            display: block;
+            aspect-ratio: 20/29;
+        }
+
+        /* Large Portrait without mat */
+        .large-portrait-no-mat .frame {
+            background: radial-gradient(ellipse at center, #2c2c2c 0%, #1a1a1a 70%, #000000 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: calc(100% * 2 / 52);
+        }
+
+        .large-portrait-no-mat img {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            display: block;
+            aspect-ratio: 50/70;
+        }
+
+        .frame-details {
+            text-align: center;
+        }
+
+        .frame-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .frame-specs {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.75rem;
+        }
+
+        .compatibility-badge {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .material-selector {
+            margin-bottom: 1rem;
+        }
+
+        .material-selector label {
+            display: block;
+            font-size: 0.9rem;
+            color: #495057;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .material-dropdown {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background: white;
+        }
+
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .add-to-cart {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .add-to-cart:hover {
+            background: #0056b3;
+        }
+
+        .not-compatible {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .not-compatible .compatibility-badge {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .algorithm-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: #856404;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header" style="padding: 10px 20px">
+            FAST MOCKUP, FOR VIEWING PURPOSES ONLY <span style="float:right">(DO NOT USE ANY CODE FROM THIS
+                EXAMPLE)</span></header>
+        </header>
+
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="animal-image">
+                    <img src="/animal-images/chimpanzee.webp" alt="Chimpanzee">
+                </div>
+
+                <div class="animal-info">
+                    <h1>Chimpanzee</h1>
+                    <div class="animal-meta">
+                        <span>Exotic Animals</span>
+                        <span class="aspect-ratio-badge">Portrait 0.67</span>
+                    </div>
+                    <p class="description">
+                        The chimpanzee, also simply known as the chimp, is a species of great ape native to the forests
+                        and savannahs of tropical Africa. Evidence from fossils and DNA sequencing shows that Pan is a
+                        sister taxon to the human lineage and is thus humans' closest living relative.
+                    </p>
+                    <p class="wiki-link"><a target="_blank" href="https://en.wikipedia.org/wiki/Chimpanzee">Read more on
+                            Wikpedia</a>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="frames-section">
+            <div class="section-header">
+                <h2 class="section-title">Compatible Frames</h2>
+                <span class="compatibility-info">4 excellent options found</span>
+            </div>
+
+            <div class="frame-grid">
+                <!-- Large Portrait with Mat -->
+                <div class="frame-option">
+                    <div class="frame-preview large-portrait">
+                        <div class="frame">
+                            <div class="mat">
+                                <img src="/animal-images/chimpanzee.webp"
+                                    alt="Chimpanzee in large portrait frame with mat">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frame-details">
+                        <div class="frame-name">Large Portrait with Mat</div>
+                        <div class="frame-specs">52×72cm frame → 39×49cm opening</div>
+                        <span class="compatibility-badge">Excellent fit</span>
+                        <div class="material-selector">
+                            <label for="large-mat-material">Material:</label>
+                            <select id="large-mat-material" class="material-dropdown">
+                                <option value="black-wood" selected>Black Wood (299 kr)</option>
+                                <option value="natural-wood">Natural Wood (329 kr)</option>
+                                <option value="white-wood">White Wood (314 kr)</option>
+                                <option value="silver-metal">Silver Metal (389 kr)</option>
+                                <option value="gold-metal">Gold Metal (449 kr)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">299 kr</span>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Large Portrait without Mat -->
+                <div class="frame-option">
+                    <div class="frame-preview large-portrait-no-mat">
+                        <div class="frame">
+                            <img src="/animal-images/chimpanzee.webp"
+                                alt="Chimpanzee in large portrait frame without mat">
+                        </div>
+                    </div>
+                    <div class="frame-details">
+                        <div class="frame-name">Large Portrait (No Mat)</div>
+                        <div class="frame-specs">52×72cm frame → 50×70cm full opening</div>
+                        <span class="compatibility-badge">Perfect fit</span>
+                        <div class="material-selector">
+                            <label for="large-nomat-material">Material:</label>
+                            <select id="large-nomat-material" class="material-dropdown">
+                                <option value="black-wood" selected>Black Wood (249 kr)</option>
+                                <option value="natural-wood">Natural Wood (274 kr)</option>
+                                <option value="white-wood">White Wood (262 kr)</option>
+                                <option value="silver-metal">Silver Metal (324 kr)</option>
+                                <option value="gold-metal">Gold Metal (374 kr)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">249 kr</span>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Medium Portrait with Mat -->
+                <div class="frame-option">
+                    <div class="frame-preview medium-portrait">
+                        <div class="frame">
+                            <div class="mat">
+                                <img src="/animal-images/chimpanzee.webp"
+                                    alt="Chimpanzee in medium portrait frame with mat">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frame-details">
+                        <div class="frame-name">Medium Portrait with Mat</div>
+                        <div class="frame-specs">42×52cm frame → 29×39cm opening</div>
+                        <span class="compatibility-badge">Great fit</span>
+                        <div class="material-selector">
+                            <label for="medium-mat-material">Material:</label>
+                            <select id="medium-mat-material" class="material-dropdown">
+                                <option value="black-wood">Black Wood (219 kr)</option>
+                                <option value="natural-wood" selected>Natural Wood (241 kr)</option>
+                                <option value="white-wood">White Wood (230 kr)</option>
+                                <option value="silver-metal">Silver Metal (285 kr)</option>
+                                <option value="gold-metal">Gold Metal (329 kr)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">241 kr</span>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Small Portrait with Mat -->
+                <div class="frame-option">
+                    <div class="frame-preview small-portrait">
+                        <div class="frame">
+                            <div class="mat">
+                                <img src="/animal-images/chimpanzee.webp"
+                                    alt="Chimpanzee in small portrait frame with mat">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frame-details">
+                        <div class="frame-name">Small Portrait with Mat</div>
+                        <div class="frame-specs">32×42cm frame → 20×29cm opening</div>
+                        <span class="compatibility-badge">Good fit</span>
+                        <div class="material-selector">
+                            <label for="small-mat-material">Material:</label>
+                            <select id="small-mat-material" class="material-dropdown">
+                                <option value="black-wood">Black Wood (194 kr)</option>
+                                <option value="natural-wood">Natural Wood (214 kr)</option>
+                                <option value="white-wood">White Wood (204 kr)</option>
+                                <option value="silver-metal" selected>Silver Metal (252 kr)</option>
+                                <option value="gold-metal">Gold Metal (291 kr)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="price-section">
+                        <span class="price">252 kr</span>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-note">
+                <strong>Smart Frame Selection:</strong> Our algorithm shows the best frame options for the chimpanzee's
+                portrait format (0.67 aspect ratio). Portrait frames work excellently, while square and landscape frames
+                are filtered out due to poor aspect ratio matching. Both matted and non-matted versions are available
+                for maximum customer choice.
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

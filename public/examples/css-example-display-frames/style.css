@@ -1,0 +1,105 @@
+/* This applies box-sizing border-box to all elements
+   (as many CSS libraries like Bootstrap do)
+   meaning padding are part of width/heights of elements */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* 50 x 70 frame portrait mode */
+.frame-holder {
+  /* Container for the entire frame - can be any width
+     (in any unit, percentage, pixels etc)
+     All internal elements scale proportionally using percentages.
+     Works great in Bootstrap columns, flexbox, CSS Grid, etc. */
+  width: 300px;
+
+  .frame {
+    background: radial-gradient(ellipse at center,
+        #A0522D 0%,
+        #8B4513 70%,
+        #654321 100%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    /* Frame border: 52cm outer → 50cm inner = 1cm border each side
+         Proportional padding: (2cm total border / 52cm outer width) */
+    padding: calc(100% * 2 / 52);
+
+    .mat {
+      background: white;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1),
+        inset 0 2px 4px rgba(0, 0, 0, 0.15);
+      /* Mat border calculations from frame specs:
+          Horizontal: (50cm - 39cm opening) / 2 / 50cm = 11% each side
+          Vertical: (70cm - 49cm opening) / 2 / 70cm = 15% top/bottom */
+      padding: calc(100% * (70 - 49) / 2 / 70) calc(100% * (50 - 39) / 2 / 50);
+    }
+
+    img {
+      object-fit: cover;
+      object-position: center;
+      width: 100%;
+      display: block;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      /* Mat opening / visible part of image */
+      aspect-ratio: 39/49;
+    }
+  }
+}
+
+/* Note: It would be much more efficient to program a React component
+   that does the calculations from frame specifications,
+   instead of hard coding every frame variation into css! */
+
+/* 70 x 50 frame, landscape mode (rotated 50 x 70 frame) */
+.frame-holder2 {
+  width: 400px;
+
+  .frame {
+    background-color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: calc(100% * 2 / 72);
+
+    .mat {
+      background: white;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1),
+        inset 0 2px 4px rgba(0, 0, 0, 0.15);
+      padding: calc(100% * (50 - 39) / 2 / 50) calc(100% * (70 - 49) / 2 / 70);
+    }
+
+    img {
+      object-fit: cover;
+      object-position: center;
+      width: 100%;
+      display: block;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      /* Mat opening / visible part of image */
+      aspect-ratio: 49/39;
+    }
+  }
+}
+
+/* 70 x 50 frame, landscape mode, no mat */
+.frame-holder3 {
+  width: 400px;
+
+  .frame {
+    background-color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: calc(100% * 2 / 72);
+
+    img {
+      object-fit: cover;
+      object-position: center;
+      width: 100%;
+      display: block;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      /* Mat opening / visible part of image */
+      aspect-ratio: 70/50;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "materials": [
+    {
+      "id": "black-wood",
+      "name": "Black Wood",
+      "slug": "black-wood",
+      "material": "Wood",
+      "color": "Black",
+      "style": "Modern",
+      "priceMultiplier": 1.0,
+      "cssBackground": "radial-gradient(ellipse at center, #2c2c2c 0%, #1a1a1a 70%, #000000 100%)"
+    },
+    {
+      "id": "natural-wood",
+      "name": "Natural Wood",
+      "slug": "natural-wood",
+      "material": "Wood",
+      "color": "Natural",
+      "style": "Rustic",
+      "priceMultiplier": 1.1,
+      "cssBackground": "radial-gradient(ellipse at center, #A0522D 0%, #8B4513 70%, #654321 100%)"
+    },
+    {
+      "id": "white-wood",
+      "name": "White Wood",
+      "slug": "white-wood",
+      "material": "Wood",
+      "color": "White",
+      "style": "Traditional",
+      "priceMultiplier": 1.05,
+      "cssBackground": "radial-gradient(ellipse at center, #ffffff 0%, #f5f5f5 70%, #e0e0e0 100%)"
+    },
+    {
+      "id": "silver-metal",
+      "name": "Silver Metal",
+      "slug": "silver-metal",
+      "material": "Metal",
+      "color": "Silver",
+      "style": "Contemporary",
+      "priceMultiplier": 1.3,
+      "cssBackground": "linear-gradient(45deg, #C0C0C0 0%, #A8A8A8 25%, #C0C0C0 50%, #969696 75%, #C0C0C0 100%)"
+    },
+    {
+      "id": "gold-metal",
+      "name": "Gold Metal",
+      "slug": "gold-metal",
+      "material": "Metal",
+      "color": "Gold",
+      "style": "Premium",
+      "priceMultiplier": 1.5,
+      "cssBackground": "linear-gradient(45deg, #FFD700 0%, #FFA500 25%, #FFD700 50%, #DAA520 75%, #FFD700 100%)"
+    }
+  ]
+}

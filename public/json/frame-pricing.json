@@ -1,0 +1,9 @@
+{
+  "basePrices": {
+    "large-portrait": 29.99,
+    "medium-portrait": 19.99,
+    "small-portrait": 14.99,
+    "square": 12.99,
+    "small-landscape": 14.99
+  }
+}

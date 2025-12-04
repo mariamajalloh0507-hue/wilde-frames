@@ -1,0 +1,64 @@
+{
+  "frameSpecs": [
+    {
+      "id": "large-portrait",
+      "name": "Large Portrait",
+      "slug": "large-portrait",
+      "frameWidthCm": 52,
+      "frameHeightCm": 72,
+      "imageAreaWidthCm": 50,
+      "imageAreaHeightCm": 70,
+      "matOpeningWidthCm": 39,
+      "matOpeningHeightCm": 49,
+      "description": "Large portrait frame, perfect for striking animal portraits"
+    },
+    {
+      "id": "medium-portrait",
+      "name": "Medium Portrait",
+      "slug": "medium-portrait",
+      "frameWidthCm": 42,
+      "frameHeightCm": 52,
+      "imageAreaWidthCm": 40,
+      "imageAreaHeightCm": 50,
+      "matOpeningWidthCm": 29,
+      "matOpeningHeightCm": 39,
+      "description": "Medium portrait frame for standard animal photos"
+    },
+    {
+      "id": "small-portrait",
+      "name": "Small Portrait",
+      "slug": "small-portrait",
+      "frameWidthCm": 32,
+      "frameHeightCm": 42,
+      "imageAreaWidthCm": 30,
+      "imageAreaHeightCm": 40,
+      "matOpeningWidthCm": 20,
+      "matOpeningHeightCm": 29,
+      "description": "Compact portrait frame ideal for detailed animal shots"
+    },
+    {
+      "id": "square",
+      "name": "Square",
+      "slug": "square",
+      "frameWidthCm": 27,
+      "frameHeightCm": 27,
+      "imageAreaWidthCm": 25,
+      "imageAreaHeightCm": 25,
+      "matOpeningWidthCm": 12,
+      "matOpeningHeightCm": 12,
+      "description": "Perfect square frame for artistic animal compositions"
+    },
+    {
+      "id": "small-landscape",
+      "name": "Small Landscape",
+      "slug": "small-landscape",
+      "frameWidthCm": 28,
+      "frameHeightCm": 23,
+      "imageAreaWidthCm": 25,
+      "imageAreaHeightCm": 20,
+      "matOpeningWidthCm": 17,
+      "matOpeningHeightCm": 12,
+      "description": "Small landscape frame for wide animal scenes"
+    }
+  ]
+}
