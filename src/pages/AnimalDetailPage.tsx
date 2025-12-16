@@ -143,7 +143,7 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
     }
   }, [materials, selectedMaterialId])
 
-  const imageSrc = animal?.slug ? `/animal-images/${animal.slug}.jpg` : ""
+  const imageSrc = animal ? `/animal-images/${animal.slug}.webp` : ""
 
   // Step 3.3: pricing (lecturer formula)
   const basePrice = pricing.find((p) => p.frameSpecId === selectedFrameId)?.basePrice ?? 0

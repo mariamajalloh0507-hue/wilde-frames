@@ -52,7 +52,11 @@ export default function GalleryPage({ lang }: { lang: Lang }) {
       <header style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 12 }}>
         <h1 style={{ margin: 0 }}>Animal Gallery</h1>
 
-        <select value={category} onChange={(e) => setCategory(e.target.value)} style={{ marginLeft: "auto" }}>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          style={{ marginLeft: "auto" }}
+        >
           {categories.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -64,7 +68,7 @@ export default function GalleryPage({ lang }: { lang: Lang }) {
       <section
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
           gap: 12,
         }}
       >
@@ -73,23 +77,32 @@ export default function GalleryPage({ lang }: { lang: Lang }) {
             key={a.id}
             to={`/animal/${a.id}`}
             style={{
-              display: "block",
+              display: "flex",
+              flexDirection: "column",
               border: "1px solid #eee",
-              borderRadius: 8,
+              borderRadius: 12,
               overflow: "hidden",
               textDecoration: "none",
               color: "inherit",
               background: "white",
             }}
           >
-            {/* We don’t have direct image URLs in the API fields list.
-               The starter kit usually provides images via slug, or a static folder.
-               For now we show a placeholder box using the aspect ratio. */}
-            <div style={{ background: "#f3f4f6", aspectRatio: "4/3" }} />
+            {/* image area */}
+            <div style={{ height: 140, background: "#f3f4f6", overflow: "hidden" }}>
+              <img
+                src={`/animal-images/${a.slug}.webp`}
+                alt={a.name}
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                onError={(e) => {
+                  ; (e.currentTarget as HTMLImageElement).style.display = "none"
+                }}
+              />
+            </div>
 
+            {/* text area */}
             <div style={{ padding: 12 }}>
               <div style={{ fontSize: 12, color: "#6b7280" }}>{a.category}</div>
-              <div style={{ fontWeight: 600 }}>{a.name}</div>
+              <div style={{ fontWeight: 800, fontSize: 16 }}>{a.name}</div>
               <div style={{ fontSize: 12, color: "#6b7280" }}>AR: {a.imageAspectRatio}</div>
             </div>
           </Link>
