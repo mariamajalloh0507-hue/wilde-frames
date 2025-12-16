@@ -143,6 +143,8 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
     }
   }, [materials, selectedMaterialId])
 
+  const imageSrc = animal?.slug ? `/animal-images/${animal.slug}.jpg` : ""
+
   // Step 3.3: pricing (lecturer formula)
   const basePrice = pricing.find((p) => p.frameSpecId === selectedFrameId)?.basePrice ?? 0
   const selectedMaterial = materials.find((m) => m.id === selectedMaterialId)
@@ -301,15 +303,58 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
           {adding ? "Adding…" : "Add to cart"}
         </button>
       </div>
+      {/* Preview */}
+      <div style={{ marginTop: 16, padding: 12, border: "1px solid #eee", borderRadius: 8 }}>
+        <h2 style={{ marginTop: 0 }}>Preview</h2>
 
-      {/* DEBUG: confirms frame data loads */}
-      <div style={{ marginTop: 16, padding: 12, border: "1px dashed #999", borderRadius: 8 }}>
-        <h2 style={{ marginTop: 0 }}>Loaded frame data</h2>
-        {frameLoading && <div>Loading frame data…</div>}
-        {frameError && <div style={{ color: "crimson" }}>Frame error: {frameError}</div>}
-        <div>Frame specs: {frameSpecs.length}</div>
-        <div>Materials: {materials.length}</div>
-        <div>Pricing rows: {pricing.length}</div>
+        <div
+          style={{
+            maxWidth: 420,
+            margin: "0 auto",
+            padding: 18,
+            borderRadius: 12,
+            background: selectedMaterial?.cssBackground || "#222",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+          }}
+        >
+          {/* Mat */}
+          <div
+            style={{
+              padding: withMat ? 22 : 0,
+              background: withMat ? "#f2efe8" : "transparent",
+              borderRadius: 8,
+              boxShadow: withMat ? "inset 0 2px 6px rgba(0,0,0,0.25)" : "none",
+            }}
+          >
+            {/* Image opening */}
+            <div
+              style={{
+                borderRadius: 6,
+                overflow: "hidden",
+                aspectRatio: orientation === "portrait"
+                  ? String(animal.imageAspectRatio)
+                  : String(1 / animal.imageAspectRatio),
+                background: "#f3f4f6",
+              }}
+            >
+              {imageSrc ? (
+                <img
+                  src={imageSrc}
+                  alt={animal.name}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  onError={(e) => {
+                    // fallback if extension differs; hides broken icon
+                    ; (e.currentTarget as HTMLImageElement).style.display = "none"
+                  }}
+                />
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <p style={{ marginTop: 10, color: "#6b7280", fontSize: 12 }}>
+          Material style comes from the API (cssBackground). Image uses /public/animal-images + slug.
+        </p>
       </div>
     </main>
   )

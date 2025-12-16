@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
-import { fetchCart } from "../api/wildeApi"
-
+import {
+  fetchCart,
+  updateCartLine,
+  removeCartLine,
+  clearCart,
+} from "../api/wildeApi"
 type CartLine =
   | {
     itemType: "ITEM"
@@ -86,8 +90,45 @@ export default function CartPage() {
                 <div style={{ marginTop: 6 }}>
                   Material: <strong>{i.materialName}</strong> ({i.material}, {i.color})
                 </div>
-                <div style={{ marginTop: 6 }}>
-                  Qty: <strong>{i.quantity}</strong>
+                <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 8 }}>
+                  <span>
+                    Qty: <strong>{i.quantity}</strong>
+                  </span>
+
+                  <button
+                    onClick={async () => {
+                      await updateCartLine({
+                        orderLineId: i.orderLineId,
+                        quantity: i.quantity + 1,
+                      })
+                      load()
+                    }}
+                  >
+                    +
+                  </button>
+
+                  <button
+                    disabled={i.quantity <= 1}
+                    onClick={async () => {
+                      await updateCartLine({
+                        orderLineId: i.orderLineId,
+                        quantity: Math.max(1, i.quantity - 1),
+                      })
+                      load()
+                    }}
+                  >
+                    –
+                  </button>
+
+                  <button
+                    onClick={async () => {
+                      await removeCartLine(i.orderLineId)
+                      load()
+                    }}
+                    style={{ color: "crimson" }}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
 
@@ -111,8 +152,29 @@ export default function CartPage() {
         ))}
       </ul>
 
-      <div style={{ marginTop: 16, display: "flex", justifyContent: "space-between" }}>
-        <button onClick={load}>Refresh</button>
+      <div
+        style={{
+          marginTop: 16,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 12,
+        }}
+      >
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={load}>Refresh</button>
+
+          <button
+            onClick={async () => {
+              await clearCart()
+              load()
+            }}
+            style={{ color: "crimson" }}
+          >
+            Empty cart
+          </button>
+        </div>
+
         <div style={{ fontSize: 20, fontWeight: 900 }}>
           Total: {total?.totalPrice ?? 0} kr
         </div>

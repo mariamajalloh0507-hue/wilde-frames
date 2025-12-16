@@ -97,3 +97,24 @@ export async function fetchCart() {
   if (!res.ok) throw new Error(`Failed to load cart (${res.status})`);
   return res.json();
 }
+export async function updateCartLine(payload: { orderLineId: number; quantity: number }) {
+  const res = await fetch(`/api/update-frame-in-cart`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+  if (!res.ok) throw new Error(`Failed to update cart line (${res.status})`)
+  return res.json()
+}
+
+export async function removeCartLine(orderLineId: number) {
+  const res = await fetch(`/api/remove-frame-from-cart/${orderLineId}`, { method: "DELETE" })
+  if (!res.ok) throw new Error(`Failed to remove cart line (${res.status})`)
+  return res.json()
+}
+
+export async function clearCart() {
+  const res = await fetch(`/api/frame-cart`, { method: "DELETE" })
+  if (!res.ok) throw new Error(`Failed to clear cart (${res.status})`)
+  return res.json()
+}
