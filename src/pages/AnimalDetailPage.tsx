@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import {
+  addFrameToCart,
   fetchAnimalById,
   fetchFrameMaterials,
   fetchFramePricing,
@@ -41,6 +42,12 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
   // Step 3.2 UI choices
   const [withMat, setWithMat] = useState(true)
   const [orientation, setOrientation] = useState<"portrait" | "landscape">("portrait")
+
+  // Step 3.3 selection + add-to-cart
+  const [selectedFrameId, setSelectedFrameId] = useState<string>("")
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string>("")
+  const [adding, setAdding] = useState(false)
+  const [addError, setAddError] = useState<string | null>(null)
 
   // 1) Fetch animal by id
   useEffect(() => {
@@ -115,6 +122,34 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
     })
   }, [animal, frameSpecs, withMat, orientation])
 
+  // Step 3.3: auto-pick defaults
+  useEffect(() => {
+    if (!selectedFrameId && compatibleFrames.length > 0) {
+      setSelectedFrameId(compatibleFrames[0].id)
+    }
+    // If selection becomes invalid (e.g. toggles changed), reset to first compatible
+    if (selectedFrameId && compatibleFrames.length > 0) {
+      const stillValid = compatibleFrames.some((f) => f.id === selectedFrameId)
+      if (!stillValid) setSelectedFrameId(compatibleFrames[0].id)
+    }
+    if (compatibleFrames.length === 0) {
+      setSelectedFrameId("")
+    }
+  }, [compatibleFrames, selectedFrameId])
+
+  useEffect(() => {
+    if (!selectedMaterialId && materials.length > 0) {
+      setSelectedMaterialId(materials[0].id)
+    }
+  }, [materials, selectedMaterialId])
+
+  // Step 3.3: pricing (lecturer formula)
+  const basePrice = pricing.find((p) => p.frameSpecId === selectedFrameId)?.basePrice ?? 0
+  const selectedMaterial = materials.find((m) => m.id === selectedMaterialId)
+  const multiplier = selectedMaterial?.priceMultiplier ?? 1
+  const matMultiplier = withMat ? 1.2 : 1
+  const finalPrice = Math.round(basePrice * multiplier * matMultiplier * 100) / 100
+
   // EARLY RETURNS (must be after hooks)
   if (loading) return <main style={{ padding: 16 }}>Loading animal…</main>
   if (error) return <main style={{ padding: 16 }}>Error: {error}</main>
@@ -142,16 +177,12 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
         </div>
       </div>
 
-      {/* Step 3.2 UI */}
+      {/* Step 3.2 + 3.3 UI */}
       <div style={{ marginTop: 24, padding: 12, border: "1px solid #eee", borderRadius: 8 }}>
         <h2 style={{ marginTop: 0 }}>Frame options</h2>
 
         <label style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-          <input
-            type="checkbox"
-            checked={withMat}
-            onChange={(e) => setWithMat(e.target.checked)}
-          />
+          <input type="checkbox" checked={withMat} onChange={(e) => setWithMat(e.target.checked)} />
           With mat
         </label>
 
@@ -176,17 +207,99 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
         </div>
 
         <div style={{ marginTop: 12 }}>
-          <strong>Compatible frames:</strong>
-          {compatibleFrames.length === 0 ? (
-            <p style={{ marginTop: 8 }}>No compatible frames for this configuration.</p>
-          ) : (
-            <ul style={{ marginTop: 8 }}>
-              {compatibleFrames.map((f) => (
-                <li key={f.id}>{f.name}</li>
-              ))}
-            </ul>
-          )}
+          <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>Choose frame</label>
+
+          <select
+            value={selectedFrameId}
+            onChange={(e) => setSelectedFrameId(e.target.value)}
+            disabled={compatibleFrames.length === 0}
+            style={{ width: "100%", padding: 8 }}
+          >
+            {compatibleFrames.length === 0 ? (
+              <option value="">No compatible frames</option>
+            ) : (
+              compatibleFrames.map((f) => (
+                <option key={f.id} value={f.id}>
+                  {f.name}
+                </option>
+              ))
+            )}
+          </select>
         </div>
+
+        <div style={{ marginTop: 12 }}>
+          <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+            Choose material
+          </label>
+
+          <select
+            value={selectedMaterialId}
+            onChange={(e) => setSelectedMaterialId(e.target.value)}
+            disabled={materials.length === 0}
+            style={{ width: "100%", padding: 8 }}
+          >
+            {materials.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.name} ({m.priceMultiplier}×)
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div style={{ marginTop: 12, padding: 12, border: "1px solid #eee", borderRadius: 8 }}>
+          <div>
+            <strong>Base price:</strong> {basePrice}
+          </div>
+          <div>
+            <strong>Material multiplier:</strong> {multiplier}
+          </div>
+          <div>
+            <strong>Mat multiplier:</strong> {withMat ? "1.2" : "1.0"}
+          </div>
+          <div style={{ marginTop: 6, fontSize: 18, fontWeight: 700 }}>Total: {finalPrice} kr</div>
+        </div>
+
+        {addError && <p style={{ color: "crimson" }}>Add to cart failed: {addError}</p>}
+
+        <button
+          disabled={
+            adding ||
+            compatibleFrames.length === 0 ||
+            !selectedFrameId ||
+            !selectedMaterialId
+          }
+          onClick={async () => {
+            setAdding(true)
+            setAddError(null)
+            try {
+              await addFrameToCart({
+                animalId: animal.id,
+                frameSpecId: selectedFrameId,
+                frameMaterialId: selectedMaterialId,
+                withMat,
+                quantity: 1,
+              })
+              alert("Added to cart!")
+            } catch (e) {
+              setAddError(e instanceof Error ? e.message : "Unknown error")
+            } finally {
+              setAdding(false)
+            }
+          }}
+          style={{
+            marginTop: 12,
+            width: "100%",
+            padding: 12,
+            background: "#2563eb",
+            color: "white",
+            border: "none",
+            borderRadius: 8,
+            cursor: "pointer",
+            opacity: adding ? 0.7 : 1,
+          }}
+        >
+          {adding ? "Adding…" : "Add to cart"}
+        </button>
       </div>
 
       {/* DEBUG: confirms frame data loads */}
