@@ -1,17 +1,33 @@
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import { useState } from "react"
+import GalleryPage from "./pages/GalleryPage.tsx"
+import CartPage from "./pages/CartPage.tsx"
+import AnimalDetailPage from "./pages/AnimalDetailPage.tsx"
+
 export default function App() {
-  return <>
-    <h1>Data for Your Wilde Frames Assignment</h1>
-    <p>You will find the following in the <b>public</b> folder</p>
-    <ul>
-      <li>A <a href="/examples/product-detail-fast-mockup.html">mockup of an animal/product detail page</a>, for inspiration/viewing purposes only.<br /><b>Do not</b> use the HTML/CSS structure from this example, it is not React-friendly.</li>
-      <li>A <a href="/examples/css-example-display-frames/index.html">CSS-example of how to display frames, with mats</a>. Feel free to use the basic CSS structure, but integrate it with your own programming logic:<br /><b>Do not</b> copy and modify the CSS for each frame size.</li>
-      <li>Images of all the animals (in the folder <b>animal-images</b>).</li>
-      <li>JSON data you can use for early prototyping of the shop (in the folder <b>json</b>).</li>
-    </ul>
-    <h1>A Complete REST-api for the Assignment</h1>
-    <p>You can use the code you have installed right now (this <b>react rapide</b>-example) as the base for your own repo, it contains a backend with a fully working REST-api for the assignment:</p>
-    <ul>
-      <li><a href="/examples/rest-api-documentation/index.html">REST-api-documentation</a></li>
-    </ul>
-  </>;
+  const [lang, setLang] = useState<"en" | "no" | "sv">("en")
+
+  return (
+    <BrowserRouter>
+      <nav style={{ padding: 16, display: "flex", gap: 12 }}>
+        <Link to="/">Gallery</Link>
+        <Link to="/cart">Cart</Link>
+
+        <div style={{ marginLeft: "auto" }}>
+          <label style={{ marginRight: 8 }}>Language</label>
+          <select value={lang} onChange={(e) => setLang(e.target.value as any)}>
+            <option value="en">English</option>
+            <option value="no">Norwegian</option>
+            <option value="sv">Swedish</option>
+          </select>
+        </div>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<GalleryPage lang={lang} />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/animal/:id" element={<AnimalDetailPage lang={lang} />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
