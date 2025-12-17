@@ -36,8 +36,7 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
   const [frameSpecs, setFrameSpecs] = useState<ApiFrameSpec[]>([])
   const [materials, setMaterials] = useState<ApiFrameMaterial[]>([])
   const [pricing, setPricing] = useState<ApiFramePricing[]>([])
-  const [frameLoading, setFrameLoading] = useState(true)
-  const [frameError, setFrameError] = useState<string | null>(null)
+
 
   // Step 3.2 UI choices
   const [withMat, setWithMat] = useState(true)
@@ -79,8 +78,7 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
   // 2) Fetch frame specs + materials + pricing
   useEffect(() => {
     let cancelled = false
-    setFrameLoading(true)
-    setFrameError(null)
+
 
     Promise.all([fetchFrameSpecs(lang), fetchFrameMaterials(lang), fetchFramePricing()])
       .then(([specs, mats, prices]) => {
@@ -89,13 +87,8 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
         setMaterials(mats)
         setPricing(prices)
       })
-      .catch((e) => {
-        if (cancelled) return
-        setFrameError(e instanceof Error ? e.message : "Unknown frame error")
-      })
-      .finally(() => {
-        if (cancelled) return
-        setFrameLoading(false)
+      .catch(() => {
+        // silently fail or handle globally if needed
       })
 
     return () => {
