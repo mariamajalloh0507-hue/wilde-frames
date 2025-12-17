@@ -13,12 +13,12 @@ import {
   type Lang,
 } from "../api/wildeApi"
 
-// --- helpers (compatibility) ---
+// --- Helpers (Compatibility) ---
 function aspectRatio(width: number, height: number) {
   return width / height
 }
 
-// Simple tolerance-based matching (good enough for exam; you can tighten later)
+// Tolerance-based matching
 function isCompatible(animalAR: number, frameAR: number) {
   const tolerance = 0.25 // forgiving on purpose
   return Math.abs(animalAR - frameAR) <= tolerance
@@ -38,17 +38,17 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
   const [pricing, setPricing] = useState<ApiFramePricing[]>([])
 
 
-  // Step 3.2 UI choices
+  // UI choices
   const [withMat, setWithMat] = useState(true)
   const [orientation, setOrientation] = useState<"portrait" | "landscape">("portrait")
 
-  // Step 3.3 selection + add-to-cart
+  // Selection + add-to-cart
   const [selectedFrameId, setSelectedFrameId] = useState<string>("")
   const [selectedMaterialId, setSelectedMaterialId] = useState<string>("")
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState<string | null>(null)
 
-  // 1) Fetch animal by id
+  // Fetch animal by id
   useEffect(() => {
     if (!id) return
 
@@ -75,7 +75,7 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
     }
   }, [lang, id])
 
-  // 2) Fetch frame specs + materials + pricing
+  // Fetch frame specs + materials + pricing
   useEffect(() => {
     let cancelled = false
 
@@ -96,7 +96,7 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
     }
   }, [lang])
 
-  // Step 3.2: Compute compatible frames
+  // Compute compatible frames
   const compatibleFrames = useMemo(() => {
     if (!animal) return []
 
@@ -115,12 +115,12 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
     })
   }, [animal, frameSpecs, withMat, orientation])
 
-  // Step 3.3: auto-pick defaults
+  // Auto-pick defaults
   useEffect(() => {
     if (!selectedFrameId && compatibleFrames.length > 0) {
       setSelectedFrameId(compatibleFrames[0].id)
     }
-    // If selection becomes invalid (e.g. toggles changed), reset to first compatible
+    // If selection becomes invalid, resets to first compatible selection
     if (selectedFrameId && compatibleFrames.length > 0) {
       const stillValid = compatibleFrames.some((f) => f.id === selectedFrameId)
       if (!stillValid) setSelectedFrameId(compatibleFrames[0].id)
@@ -138,14 +138,14 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
 
   const imageSrc = animal ? `/animal-images/${animal.slug}.webp` : ""
 
-  // Step 3.3: pricing (lecturer formula)
+  // Pricing
   const basePrice = pricing.find((p) => p.frameSpecId === selectedFrameId)?.basePrice ?? 0
   const selectedMaterial = materials.find((m) => m.id === selectedMaterialId)
   const multiplier = selectedMaterial?.priceMultiplier ?? 1
   const matMultiplier = withMat ? 1.2 : 1
   const finalPrice = Math.round(basePrice * multiplier * matMultiplier * 100) / 100
 
-  // EARLY RETURNS (must be after hooks)
+  // RETURNS
   if (loading) return <main style={{ padding: 16 }}>Loading animal…</main>
   if (error) return <main style={{ padding: 16 }}>Error: {error}</main>
   if (!animal) return <main style={{ padding: 16 }}>Not found.</main>
@@ -172,7 +172,7 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
         </div>
       </div>
 
-      {/* Step 3.2 + 3.3 UI */}
+      {/* Frames % UI */}
       <div style={{ marginTop: 24, padding: 12, border: "1px solid #eee", borderRadius: 8 }}>
         <h2 style={{ marginTop: 0 }}>Frame options</h2>
 
@@ -296,6 +296,7 @@ export default function AnimalDetailPage({ lang }: { lang: Lang }) {
           {adding ? "Adding…" : "Add to cart"}
         </button>
       </div>
+
       {/* Preview */}
       <div style={{ marginTop: 16, padding: 12, border: "1px solid #eee", borderRadius: 8 }}>
         <h2 style={{ marginTop: 0 }}>Preview</h2>

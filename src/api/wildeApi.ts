@@ -75,7 +75,7 @@ export async function fetchFramePricing(): Promise<ApiFramePricing[]> {
   return res.json();
 }
 
-// cart
+// Cart
 export async function addFrameToCart(payload: {
   animalId: number;
   frameSpecId: string;

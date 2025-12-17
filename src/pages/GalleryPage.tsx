@@ -7,7 +7,7 @@ export default function GalleryPage({ lang }: { lang: Lang }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const [category, setCategory] = useState("all")
+  const [category, setCategory] = useState("All")
 
   useEffect(() => {
     let cancelled = false
@@ -18,7 +18,7 @@ export default function GalleryPage({ lang }: { lang: Lang }) {
       .then((data) => {
         if (cancelled) return
         setAnimals(data)
-        setCategory("all")
+        setCategory("All")
       })
       .catch((e) => {
         if (cancelled) return
@@ -35,13 +35,13 @@ export default function GalleryPage({ lang }: { lang: Lang }) {
   }, [lang])
 
   const categories = useMemo(() => {
-    const s = new Set<string>(["all"])
+    const s = new Set<string>(["All"])
     animals.forEach((a) => s.add(a.category))
     return Array.from(s)
   }, [animals])
 
   const filtered = useMemo(() => {
-    return category === "all" ? animals : animals.filter((a) => a.category === category)
+    return category === "All" ? animals : animals.filter((a) => a.category === category)
   }, [animals, category])
 
   if (loading) return <main style={{ padding: 16 }}>Loading animals…</main>
@@ -87,7 +87,7 @@ export default function GalleryPage({ lang }: { lang: Lang }) {
               background: "white",
             }}
           >
-            {/* image area */}
+            {/* Image area */}
             <div style={{ height: 140, background: "#f3f4f6", overflow: "hidden" }}>
               <img
                 src={`/animal-images/${a.slug}.webp`}
@@ -99,7 +99,7 @@ export default function GalleryPage({ lang }: { lang: Lang }) {
               />
             </div>
 
-            {/* text area */}
+            {/* Text area */}
             <div style={{ padding: 12 }}>
               <div style={{ fontSize: 12, color: "#6b7280" }}>{a.category}</div>
               <div style={{ fontWeight: 800, fontSize: 16 }}>{a.name}</div>
